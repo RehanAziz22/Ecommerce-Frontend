@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -19,11 +19,35 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowCircleRight } from '@mui/icons-material';
 import CarouselComponent from '../../components/CarouselComponent';
 import NavbarComponent from '../../components/NavbarComponent';
+import { UserContext } from '../../contexts/UserContext';
 
 const Home = () => {
+  let user = JSON.parse(localStorage.getItem('currentUser'));
+  console.log(user)
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const addToCart = async (userId, productId, quantity) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/cart/add', {
+        userId,
+        productId,
+        quantity,
+      });
+      alert(response.data.message); // Notify the user
+    } catch (err) {
+      console.error(err.response?.data?.message || 'Error adding product to cart');
+    }
+  };
+
+  const handleAddToCart = (product) => {
+
+    if (!user) {
+      navigate("/login")
+    }
+    addToCart(user._id, product._id, 1); // Adds 1 quantity of the product
+  };
 
   useEffect(() => {
     // Fetch products from API
@@ -93,7 +117,7 @@ const Home = () => {
                 <Button size="small" color="primary">
                   View Details
                 </Button>
-                <Button size="small" color="secondary">
+                <Button size="small" color="secondary" onClick={() => handleAddToCart(product)}>
                   Add to Cart
                 </Button>
               </CardActions>
@@ -124,7 +148,7 @@ const Home = () => {
         Explore Our Products
       </Typography> */}
       {/* Latest Products Section */}
-      <Box sx={{ mb: 5,mt:5 }}>
+      <Box sx={{ mb: 5, mt: 5 }}>
         <Typography variant="h5" gutterBottom>
           Latest Products
         </Typography>

@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import AnimationIcon from '@mui/icons-material/Animation';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { AdminContext } from '../contexts/AdminContext';
@@ -25,9 +27,10 @@ function NavbarComponent() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [isUser, setIsUser] = React.useState(localStorage.getItem('currentUser') || user)
     const [isAdmin, setIsAdmin] = React.useState(localStorage.getItem('currentAdmin') || admin)
-    const pages = [{ name: 'Products', path: isAdmin? "/admin/product":"/" }, { name: 'About', path: isAdmin? "/admin/about":'/about' }, { name: 'Blog', path: '/blog' }];
+    const [cartCount, setCartCount] = React.useState(0);
+    const pages = [{ name: 'Products', path: isAdmin ? "/admin/product" : "/" }, { name: 'About', path: isAdmin ? "/admin/about" : '/about' }, { name: 'Blog', path: '/blog' }];
     const settings = [{ name: 'Profile', path: "/profile" }, { name: 'Account', path: "/account" }, { name: 'Logout', path: "/logout" }];
-
+    const [cartCount, setCartCount] = React.useState(0);
     const navigate = useNavigate()
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -70,6 +73,17 @@ function NavbarComponent() {
         handleCloseUserMenu()
 
     };
+
+    React.useEffect(() => {
+        if (isUser) {
+            const userId = JSON.parse(localStorage.getItem('currentUser'))._id; // Adjust based on your user data structure
+            axios.get(`http://localhost:3000/api/cart/${userId}`)
+                .then(response => {
+                    setCartCount(response.data.cart.items.length);
+                })
+                .catch(err => console.error('Error fetching cart data:', err));
+        }
+    }, [isUser]);
     return (
         <>
             <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: "black" }}>
@@ -158,7 +172,7 @@ function NavbarComponent() {
                                 </Button>
                             ))}
                         </Box>
-                        {isUser||isAdmin ? <Box sx={{ flexGrow: 0 }}>
+                        {isUser || isAdmin ? <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
