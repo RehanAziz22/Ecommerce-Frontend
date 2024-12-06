@@ -18,16 +18,18 @@ import Badge from '@mui/material/Badge';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { AdminContext } from '../contexts/AdminContext';
-
+import axios from 'axios'
+import { CartContext } from '../contexts/CartContext';
 
 function NavbarComponent() {
     const { user, userLogout } = React.useContext(UserContext);
     const { admin, adminLogout } = React.useContext(AdminContext);
+    const { cartQty, setCartQty } = React.useContext(CartContext);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [isUser, setIsUser] = React.useState(localStorage.getItem('currentUser') || user)
     const [isAdmin, setIsAdmin] = React.useState(localStorage.getItem('currentAdmin') || admin)
-    const [cartCount, setCartCount] = React.useState(0);
+    // const [cartCount, setCartCount] = React.useState(0);
     const pages = [{ name: 'Products', path: isAdmin ? "/admin/product" : "/" }, { name: 'About', path: isAdmin ? "/admin/about" : '/about' }, { name: 'Blog', path: '/blog' }];
     const settings = [{ name: 'Profile', path: "/profile" }, { name: 'Account', path: "/account" }, { name: 'Logout', path: "/logout" }];
     const [cartCount, setCartCount] = React.useState(0);
@@ -79,7 +81,8 @@ function NavbarComponent() {
             const userId = JSON.parse(localStorage.getItem('currentUser'))._id; // Adjust based on your user data structure
             axios.get(`http://localhost:3000/api/cart/${userId}`)
                 .then(response => {
-                    setCartCount(response.data.cart.items.length);
+                    setCartQty(response.data.cart.items.length)
+                    console.log("---",cartQty);
                 })
                 .catch(err => console.error('Error fetching cart data:', err));
         }
@@ -172,10 +175,24 @@ function NavbarComponent() {
                                 </Button>
                             ))}
                         </Box>
+
+                        {isUser && (
+                            <IconButton
+                                size="large"
+                                aria-label="show cart items"
+                                color="inherit"
+                                onClick={() => navigate('/cart')}
+                                sx={{marginRight:2}}
+                            >
+                                <Badge badgeContent={cartQty} color="error">
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
+                        )}
                         {isUser || isAdmin ? <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt={isUser.firstName} src="/static/images/avatar/2.jpg" />
                                 </IconButton>
                             </Tooltip>
                             <Menu

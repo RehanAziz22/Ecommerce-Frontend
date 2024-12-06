@@ -6,7 +6,7 @@ import { UserContext } from '../../contexts/UserContext';
 import NavbarComponent from '../../components/NavbarComponent';
 
 const Login = () => {
-  const { userLogin } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -45,7 +45,7 @@ const Login = () => {
 
         localStorage.setItem('currentUser', JSON.stringify(response.data.data));
         setSuccessMessage('Login successful!');
-        userLogin(response.data.data)
+        setUser(response.data.data)
         setError({});
         console.log('Response:', response.data);
         setFormData({

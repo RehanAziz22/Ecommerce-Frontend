@@ -12,6 +12,7 @@ import { UserContext } from './contexts/UserContext'
 import Users from './pages/AdminPanel/Users'
 import Admins from './pages/AdminPanel/Admins'
 import Product from './pages/AdminPanel/Product'
+import Cart from './pages/CustomerPanel/Cart'
 
 export default function App() {
   let { admin } = useContext(AdminContext)
@@ -46,6 +47,7 @@ export default function App() {
         { path: '/login', element: <Login /> },
         { path: '/signup', element: <Signup /> },
         { path: '/about', element: <About /> },
+        { path: '/cart', element: <Cart /> },
       ]
     }, {
       path: "/admin",

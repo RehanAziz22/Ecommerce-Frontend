@@ -20,11 +20,14 @@ import { ArrowCircleRight } from '@mui/icons-material';
 import CarouselComponent from '../../components/CarouselComponent';
 import NavbarComponent from '../../components/NavbarComponent';
 import { UserContext } from '../../contexts/UserContext';
+import { CartContext } from '../../contexts/CartContext';
 
 const Home = () => {
   let user = JSON.parse(localStorage.getItem('currentUser'));
   console.log(user)
   const [products, setProducts] = useState([]);
+  const { cartQty, setCartQty } = useContext(CartContext);
+
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -36,6 +39,8 @@ const Home = () => {
         quantity,
       });
       alert(response.data.message); // Notify the user
+      setCartQty(response.data.cart.items.length)
+      console.log(response.data.cart.items.length)
     } catch (err) {
       console.error(err.response?.data?.message || 'Error adding product to cart');
     }

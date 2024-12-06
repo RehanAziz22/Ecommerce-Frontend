@@ -8,10 +8,10 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null); // User state
 
   // Function to set user after login
-  const userLogin = (userData) => {
-    setUser(userData);
-    // localStorage.setItem("currentUser",userData); // Optional: Persist user
-  };
+  // const userLogin = (userData) => {
+  //   setUser(userData);
+  //   // localStorage.setItem("currentUser",userData); // Optional: Persist user
+  // };
 
   // Function to clear user on logout
   const userLogout = () => {
@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
 
   // Return the context provider with the children
   return (
-    <UserContext.Provider value={{ user, userLogin, userLogout }}>
+    <UserContext.Provider value={{ user, setUser, userLogout }}>
       {children}
     </UserContext.Provider>
   );
