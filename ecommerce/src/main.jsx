@@ -7,7 +7,7 @@ import { AdminProvider } from './contexts/AdminContext.jsx'
 import { CartProvider } from './contexts/CartContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+
     <AdminProvider>
       <UserProvider>
         <CartProvider>
@@ -15,5 +15,4 @@ createRoot(document.getElementById('root')).render(
         </CartProvider>
       </UserProvider>
     </AdminProvider>
-  </StrictMode>,
 )

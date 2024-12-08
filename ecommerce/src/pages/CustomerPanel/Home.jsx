@@ -51,6 +51,7 @@ const Home = () => {
     if (!user) {
       navigate("/login")
     }
+    console.log(product._id)
     addToCart(user._id, product._id, 1); // Adds 1 quantity of the product
   };
 
