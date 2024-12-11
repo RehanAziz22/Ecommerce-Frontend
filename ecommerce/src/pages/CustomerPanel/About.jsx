@@ -6,7 +6,7 @@ const About = () => {
     return (
         <>
             <NavbarComponent />
-            <Container maxWidth="lg" style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+            <Container maxWidth="lg" style={{ marginTop:"100px", marginBottom: "2rem" }}>
                 <Grid container spacing={4}>
                     {/* Banner Section */}
                     <Grid item xs={12}>

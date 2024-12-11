@@ -49,18 +49,20 @@ const Cart = () => {
       }).catch((error) => console.error("Error removing product from cart:", error.response.data));
   }
   if (!cartData) return <Typography>Loading...</Typography>;
+  
 
   return (
     <>
       <NavbarComponent />
-      <Box sx={{ padding: 2, marginTop: 6, maxWidth: "1200px", margin: "auto" }}>
+      
+      <Box sx={{ padding: 2, paddingTop: 10, maxWidth: "1200px", margin: "auto" }}>
         <Typography variant="h4" gutterBottom>
           Your Cart
         </Typography>
 
         <Grid container spacing={2}>
           {cartData.items.map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item._id}>
+            <Grid item xs={12} sm={4} md={3} key={item._id}>
               <Card sx={{ height: "100%" }}>
                 <CardMedia
                   component="img"

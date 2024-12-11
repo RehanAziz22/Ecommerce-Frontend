@@ -55,6 +55,9 @@ const Home = () => {
     addToCart(user._id, product._id, 1); // Adds 1 quantity of the product
   };
 
+  const productDetails=(id)=>{
+    navigate(`/product/${id}`)
+  }
   useEffect(() => {
     // Fetch products from API
     axios
@@ -120,7 +123,7 @@ const Home = () => {
                 />
               </CardContent>
               <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={()=>productDetails(product._id)}>
                   View Details
                 </Button>
                 <Button size="small" color="secondary" onClick={() => handleAddToCart(product)}>

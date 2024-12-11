@@ -13,6 +13,7 @@ import Users from './pages/AdminPanel/Users'
 import Admins from './pages/AdminPanel/Admins'
 import Product from './pages/AdminPanel/Product'
 import Cart from './pages/CustomerPanel/Cart'
+import ProductDetails from './pages/CustomerPanel/ProductDetails'
 
 export default function App() {
   let { admin } = useContext(AdminContext)
@@ -48,6 +49,7 @@ export default function App() {
         { path: '/signup', element: <Signup /> },
         { path: '/about', element: <About /> },
         { path: '/cart', element: <Cart /> },
+        { path: '/product/:id', element: <ProductDetails /> },
       ]
     }, {
       path: "/admin",
